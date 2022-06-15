@@ -4,10 +4,23 @@ services:
   executions:
     image: wsumfest/execution-feed:v1
     container_name: executions
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
   sports:
     image: wsumfest/sport-feed:v1
     container_name: sports
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
   nats:
     image: nats:latest
     ports:
       - 4222:4222
+  postgres:
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: admin
+    volumes: 
+      - ./src/db/init.sql:/docker-entrypoint-initdb.d/init.sql
