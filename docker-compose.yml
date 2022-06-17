@@ -15,6 +15,12 @@ services:
     image: nats:latest
     ports:
       - 4222:4222
+  persistjs:
+    build: 
+      context: ./src/code/
+      dockerfile: Dockerfile
+    ports: 
+      - 8080:8080
   postgres:
     image: postgres
     restart: always
