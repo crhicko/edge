@@ -39,6 +39,12 @@ On compose up the nats server and 2 containers running sports and executions beg
 	- await nats_client.connect("host.docker.internal:4222", loop=event_loop)
 	- after investigation it looks like linux doesnt auto set host.docker.internal, manually setting may fix this since I don't want to edit any source
 	- setting this in external_hosts fixes the issue
-
+	- SUBJECTS: sports are on sports_event, exevs are on execution
 	- subscriber options: Java (nats library), python (nats library)
 	- persistance: mongodb
+
+Postgres:
+	- using postgres for persistance due to familiarity, the data is structured so i think its fair to use a relational db instead of nosql
+	- adding a postgres docker image
+	- pg docker has a directory that will run scripts on start of the container at: /docker-entrypoint-initdb.d/
+	- make sure you down completely remove the image instead of stopping if you want to adjust this init script
