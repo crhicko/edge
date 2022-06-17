@@ -21,6 +21,10 @@ services:
       dockerfile: Dockerfile
     ports: 
       - 8080:8080
+    volumes:
+      - ./src/code/:/usr/src/app
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
   postgres:
     image: postgres
     restart: always
