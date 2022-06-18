@@ -4,11 +4,15 @@ services:
   executions:
     image: wsumfest/execution-feed:v1
     container_name: executions
+    logging:
+      driver: none
     extra_hosts:
       - 'host.docker.internal:host-gateway'
   sports:
     image: wsumfest/sport-feed:v1
     container_name: sports
+    logging:
+      driver: none
     extra_hosts:
       - 'host.docker.internal:host-gateway'
   nats:
@@ -23,6 +27,13 @@ services:
       - 8080:8080
     volumes:
       - ./src/code/:/usr/src/app
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+  java:
+    container_name: java
+    build:
+      context: ./src/edge/
+      dockerfile: Dockerfile
     extra_hosts:
       - 'host.docker.internal:host-gateway'
   postgres:
