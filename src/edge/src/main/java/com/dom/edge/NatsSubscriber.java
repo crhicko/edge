@@ -21,14 +21,22 @@ public abstract class NatsSubscriber<T> {
     protected NatsSubscriber(String s, Connection nc, CountDownLatch l) {
         subject = s;
         latch = l;
-        dispatcher = nc.createDispatcher((msg) -> {
+        dispatcher = createProtoDispatcher(nc);
+        start();
+    }
+
+    protected Dispatcher createProtoDispatcher(Connection nc) {
+        return nc.createDispatcher((msg) -> {
 //            T event = T.parseFrom(msg.getData());
             T event = parseProto(msg.getData());
             logger.info("Message from {}: {}", subject, event.getClass().getSimpleName());
             latch.countDown();
         });
+    }
+
+    protected void start() {
         logger.info("Subscribing to {}", subject);
-        dispatcher.subscribe(s);
+        dispatcher.subscribe(subject);
     }
 
     public abstract T parseProto(byte[] data);

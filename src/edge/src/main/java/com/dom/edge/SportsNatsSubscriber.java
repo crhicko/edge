@@ -7,8 +7,8 @@ import java.util.concurrent.CountDownLatch;
 
 public class SportsNatsSubscriber extends NatsSubscriber<Sportevent.event> {
 
-    SportsNatsSubscriber(String s, Connection nc, CountDownLatch l){
-        super(s, nc, l);
+    SportsNatsSubscriber(Connection nc, CountDownLatch l){
+        super("sport_event", nc, l);
     }
     public Sportevent.event parseProto(byte[] data) {
         try {

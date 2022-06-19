@@ -7,8 +7,8 @@ import java.util.concurrent.CountDownLatch;
 
 public class ExecutionNatsSubscriber extends NatsSubscriber<Executionevent.execution>{
 
-    ExecutionNatsSubscriber(String s, Connection nc, CountDownLatch l){
-        super(s, nc, l);
+    ExecutionNatsSubscriber(Connection nc, CountDownLatch l){
+        super("execution", nc, l);
     }
 
     @Override
