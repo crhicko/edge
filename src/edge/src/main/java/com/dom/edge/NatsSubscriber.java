@@ -1,5 +1,6 @@
 package com.dom.edge;
 
+import com.dom.edge.proto.Executionevent;
 import io.nats.client.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,24 +10,31 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.concurrent.CountDownLatch;
 
-public class NatsSubscriber {
+public abstract class NatsSubscriber<T> {
     String subject;
-    Logger logger = LoggerFactory.getLogger(NatsSubscriber.class);
+    private static final Logger logger = LoggerFactory.getLogger(NatsSubscriber.class);
 
     CountDownLatch latch;
 
     Dispatcher dispatcher;
 
-    public NatsSubscriber(String s, Connection nc, CountDownLatch l) {
+    protected NatsSubscriber(String s, Connection nc, CountDownLatch l) {
         subject = s;
         latch = l;
         dispatcher = nc.createDispatcher((msg) -> {
-            String resp = new String(msg.getData(), StandardCharsets.UTF_8);
-            logger.info("Message from {}: {}", subject, resp);
+//            T event = T.parseFrom(msg.getData());
+            T event = parseProto(msg.getData());
+            logger.info("Message from {}: {}", subject, event.getClass().getSimpleName());
             latch.countDown();
         });
         logger.info("Subscribing to {}", subject);
         dispatcher.subscribe(s);
     }
+
+    public abstract T parseProto(byte[] data);
+
+//    public void listen() {
+//        latch.await();
+//    }
 
 }

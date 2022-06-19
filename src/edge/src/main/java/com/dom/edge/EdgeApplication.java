@@ -33,8 +33,8 @@ public class EdgeApplication {
 
 		CountDownLatch latch = new CountDownLatch(1);
 
-		NatsSubscriber sportsN = new NatsSubscriber("sport_event", nc, latch);
-		NatsSubscriber execN = new NatsSubscriber("execution", nc, latch);
+		NatsSubscriber sportsN = new SportsNatsSubscriber("sport_event", nc, latch);
+		NatsSubscriber execN = new ExecutionNatsSubscriber("execution", nc, latch);
 
 		try {
 			latch.await();
