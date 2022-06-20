@@ -1,17 +1,11 @@
-package com.dom.edge;
+package com.dom.edge.subscriber;
 
 import com.dom.edge.connection.NatsConnection;
-import com.dom.edge.proto.Executionevent;
 import io.nats.client.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.time.Duration;
 import java.util.concurrent.CountDownLatch;
 
 public abstract class NatsSubscriber<T, S> {

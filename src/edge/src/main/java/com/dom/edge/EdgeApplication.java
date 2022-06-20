@@ -1,17 +1,10 @@
 package com.dom.edge;
 
-import com.dom.edge.connection.NatsConnection;
-import com.dom.edge.repository.SportRepository;
-import io.nats.client.Connection;
-import io.nats.client.Nats;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import com.dom.edge.NatsSubscriber;
 import org.springframework.context.ConfigurableApplicationContext;
-
-import java.util.concurrent.CountDownLatch;
 
 @SpringBootApplication
 public class EdgeApplication {

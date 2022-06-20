@@ -1,4 +1,4 @@
-package com.dom.edge;
+package com.dom.edge.subscriber;
 
 import com.dom.edge.connection.NatsConnection;
 import com.dom.edge.model.SportEvent;
