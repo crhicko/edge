@@ -19,16 +19,6 @@ services:
     image: nats:latest
     ports:
       - 4222:4222
-  persistjs:
-    build: 
-      context: ./src/code/
-      dockerfile: Dockerfile
-    ports: 
-      - 8080:8080
-    volumes:
-      - ./src/code/:/usr/src/app
-    extra_hosts:
-      - 'host.docker.internal:host-gateway'
   java:
     container_name: java
     build:
