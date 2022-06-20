@@ -1,7 +1,6 @@
 package com.dom.edge.model;
 
 import javax.persistence.*;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 

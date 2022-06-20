@@ -25,7 +25,6 @@ public abstract class NatsSubscriber<T, S> {
     Dispatcher dispatcher;
 
     protected NatsSubscriber(String s, NatsConnection nc, JpaRepository<S, Long> repository) {
-        logger.info("Constructing");
         subject = s;
         latch = new CountDownLatch(1);
         this.repository = repository;
@@ -37,15 +36,12 @@ public abstract class NatsSubscriber<T, S> {
     protected Dispatcher createProtoDispatcher(Connection nc, JpaRepository repository) {
 
         return nc.createDispatcher((msg) -> {
-//            T event = T.parseFrom(msg.getData());
             T event = parseProto(msg.getData());
             S event_model = convertToModel(event);
-            logger.info("Message from {}: {} {}", subject, event.getClass().getSimpleName(), event_model.getClass().getSimpleName(), repository.getClass().getSimpleName());
-            logger.info("Repository is: {}", repository.getClass().getInterfaces()[0].getSimpleName());
+            logger.info("Message from {}: Starting persist");
             latch.countDown();
             repository.save(event_model);
             logger.info("Persisted data");
-
         });
     }
 

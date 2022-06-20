@@ -22,18 +22,6 @@ public class EdgeApplication {
 
 		ConfigurableApplicationContext ctx = SpringApplication.run(EdgeApplication.class, args);
 
-		NatsConnection nc = ctx.getBean(NatsConnection.class);
-
-
-
-//		NatsSubscriber sportsN = new SportsNatsSubscriber(nc, latch);
-//		NatsSubscriber execN = new ExecutionNatsSubscriber(nc, latch);
-
-//		try {
-//			latch.await();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
 	}
 
 }
