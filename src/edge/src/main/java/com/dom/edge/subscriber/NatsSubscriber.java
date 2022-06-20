@@ -1,6 +1,7 @@
 package com.dom.edge.subscriber;
 
 import com.dom.edge.connection.NatsConnection;
+import com.dom.edge.dispatcher.ProtoDispatcher;
 import io.nats.client.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,42 +19,26 @@ public abstract class NatsSubscriber<T, S> {
 
     Dispatcher dispatcher;
 
-    protected NatsSubscriber(String s, NatsConnection nc, JpaRepository<S, Long> repository) {
+    protected NatsSubscriber(String s, ProtoDispatcher d, JpaRepository<S, Long> repository) {
         subject = s;
-        latch = new CountDownLatch(1);
         this.repository = repository;
-        dispatcher = createProtoDispatcher(nc.getConnection(), repository);
+        dispatcher = d.getDispatcher();
         start();
-        listen();
     }
 
-    protected Dispatcher createProtoDispatcher(Connection nc, JpaRepository repository) {
-
-        return nc.createDispatcher((msg) -> {
+    protected void start() {
+        logger.info("Subscribing to {}", subject);
+        dispatcher.subscribe(subject, (msg) -> {
             T event = parseProto(msg.getData());
             S event_model = convertToModel(event);
             logger.info("Message from {}: Starting persist");
-            latch.countDown();
             repository.save(event_model);
             logger.info("Persisted data");
         });
     }
 
-    protected void start() {
-        logger.info("Subscribing to {}", subject);
-        dispatcher.subscribe(subject);
-    }
-
     public abstract T parseProto(byte[] data);
 
     public abstract S convertToModel(T proto);
-
-    public void listen() {
-        try {
-            latch.await();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
 }

@@ -1,6 +1,7 @@
 package com.dom.edge.subscriber;
 
 import com.dom.edge.connection.NatsConnection;
+import com.dom.edge.dispatcher.ProtoDispatcher;
 import com.dom.edge.model.ExecutionEvent;
 import com.dom.edge.proto.Executionevent;
 import com.dom.edge.repository.ExecutionRepository;
@@ -11,8 +12,8 @@ import org.springframework.stereotype.Component;
 public class ExecutionNatsSubscriber extends NatsSubscriber<Executionevent.execution, ExecutionEvent>{
 
     @Autowired
-    ExecutionNatsSubscriber(NatsConnection nc, ExecutionRepository executionRepository){
-        super("execution", nc,  executionRepository);
+    ExecutionNatsSubscriber(ProtoDispatcher d, ExecutionRepository executionRepository){
+        super("execution", d,  executionRepository);
     }
 
     @Override

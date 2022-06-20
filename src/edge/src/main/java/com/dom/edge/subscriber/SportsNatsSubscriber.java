@@ -1,6 +1,7 @@
 package com.dom.edge.subscriber;
 
 import com.dom.edge.connection.NatsConnection;
+import com.dom.edge.dispatcher.ProtoDispatcher;
 import com.dom.edge.model.SportEvent;
 import com.dom.edge.proto.Sportevent;
 import com.dom.edge.repository.SportRepository;
@@ -11,8 +12,8 @@ import org.springframework.stereotype.Component;
 public class SportsNatsSubscriber extends NatsSubscriber<Sportevent.event, SportEvent> {
 
     @Autowired
-    SportsNatsSubscriber(NatsConnection nc, SportRepository sportRepository){
-        super("sport_event", nc,  sportRepository);
+    SportsNatsSubscriber(ProtoDispatcher d, SportRepository sportRepository){
+        super("sport_event", d,  sportRepository);
     }
     @Override
     public Sportevent.event parseProto(byte[] data) {
